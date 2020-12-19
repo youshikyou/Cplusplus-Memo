@@ -1,0 +1,8 @@
+Create the 2D vector
+vector<vector<int>> v {6,7,8};
+
+auto v ={6,7,8}:
+for(auto i:v)
+{
+  cout<<i:
+}
