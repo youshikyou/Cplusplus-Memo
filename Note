@@ -51,3 +51,24 @@ int main()
     }
 }
 /******istringstream**********/
+
+/************cmake************/
+In CMakeLists.txt 
+
+==============================================
+cmake_minimum_required(VERSION 3.5.1)
+
+set(CMAKE_CXX_STANDARD 14)
+
+project(NewYear2021)
+
+add_executable(your_executable_name src/main.cpp src/vect_add_one.cpp src/increment_and_sum.cpp)
+===============================================
+
+A typical CMake project will have a build directory in the same place as the top-level CMakeLists.txt. 
+Make a build directory in the /home/workspace/cmake_example folder
+within the build directory, you can now run CMake
+$ cmake ..
+$ make
+$ ./your_executable_name
+
