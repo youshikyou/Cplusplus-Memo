@@ -72,3 +72,12 @@ $ cmake ..
 $ make
 $ ./your_executable_name
 
+
+=====================================================
+In general, prefer initialization to assignment. Initialization sets the value as soon as the object exists, 
+whereas assignment sets the value only after the object comes into being. 
+This means that assignment creates and opportunity to accidentally use a variable before its value is set.
+
+In fact, initialization lists ensure that member variables are initialized before the object is created. 
+This is why class member variables can be declared const, but only if the member variable is initialized through an initialization list. 
+Trying to initialize a const class member within the body of the constructor will not work.
