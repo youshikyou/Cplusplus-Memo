@@ -1,0 +1,20 @@
+class Car{
+  private:
+    char * brand;
+  public:
+    void SetBrand(std::string brand_name);
+    std::string GetBrand() const;
+}
+
+void Car::SetBrand(std::string brand_name) {
+    // Initialization of char array
+    Car::brand = new char[brand_name.length() + 1];
+    // copying every character from string to char array;
+    strcpy(Car::brand, brand_name.c_str());
+}
+
+std::string Car::GetBrand() const {
+    std::string result = "";
+    result += Car::brand;
+    return result;
+};
