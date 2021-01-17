@@ -1,0 +1,10 @@
+ static attributes exist beyond a particular instance of a class, 
+ but do not extend into conflict with other static attributes defined within other classes.
+
+Using constexpr instead of const
+static float constexpr pi_{3.14159};
+
+
+Just like static member variables, static member functions are instance-independent: 
+they belong to the class, not to any particular instance of the class.
+One corollary to this is that we can method invoke a static member function without ever creating an instance of the class.

@@ -1,5 +1,0 @@
- static attributes exist beyond a particular instance of a class, 
- but do not extend into conflict with other static attributes defined within other classes.
-
-Using constexpr instead of const
-static float constexpr pi_{3.14159};
