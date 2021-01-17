@@ -1,0 +1,2 @@
+ static attributes exist beyond a particular instance of a class, 
+ but do not extend into conflict with other static attributes defined within other classes.
