@@ -62,3 +62,65 @@ int main() {
 }
 
 =======================================================================================
+
+#include <cassert>
+#include <stdexcept>
+#include <cstring>
+#include <string>
+#include <iostream>
+
+// TODO: Define "Student" class
+class Student {
+ public:
+  // constructor
+    Student(std::string name,int grade,float GPA):name_(name),grade_(grade),GPA_(GPA){
+        Validate();
+    }
+  // accessors
+    std::string GetName () const { return name_ ;}
+    int GetGrade () const { return grade_;}
+    float GetGPA () const { return GPA_;}
+  
+  // mutators
+    void Name(std::string name){ name_ = name;}
+    void Grade(int grade)
+    {   
+        grade_ = grade;
+        Validate();  
+
+    }
+
+    void GPA(float GPA)
+    { 
+        GPA_ = GPA;
+        Validate(); 
+    }
+
+ private:
+    std::string name_;
+    int grade_;
+    float GPA_;
+    void Validate()
+    {
+        if (GetGrade() <=0 || GetGrade() >12 ||GetGPA()<0.0 || GetGPA()>4.0)
+        {
+            throw std::invalid_argument("invalid value!");
+        }
+    }
+};
+
+// TODO: Test
+int main() {
+    Student studentA("Tom", 2, 3.8);
+    assert(studentA.GetName() == "Tom");
+    assert(studentA.GetGrade() == 2);
+    assert(studentA.GetGPA() == 3.8f);
+
+    bool caught{false};
+    try {
+        studentA.Grade(13);
+    } catch (...) {
+        caught = true;
+    }
+    assert(caught);
+}
