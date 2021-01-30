@@ -1,0 +1,16 @@
+class Cat { // Here, Cat does not derive from a base class
+public:
+  std::string Talk() const { return std::string("Meow"); }
+};
+
+class Lion : public Cat {
+public:
+  std::string Talk() const { return std::string("Roar"); }
+};
+
+In this example, Cat is the base class and Lion is the derived class. Both Cat and Lion have Talk() member functions.
+When an object of type Lion calls Talk(), the object will run Lion::Talk(), not Cat::Talk().
+In this situation, Lion::Talk() is hiding Cat::Talk(). If Cat::Talk() were virtual, then Lion::Talk() would override Cat::Talk(),
+instead of hiding it. Overriding requires a virtual function in the base class.
+The distinction between overriding and hiding is subtle and not terribly significant, but in certain situations hiding can lead to bizarre errors,
+particularly when the two functions have slightly different function signatures.
