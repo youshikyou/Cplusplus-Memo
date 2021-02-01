@@ -1,0 +1,39 @@
+#include <sstream>
+#include <string>
+#include <vector>
+#include <iostream>
+
+Process::Process(int pid, long hertz) : pid_(pid), hertz_(hertz) {
+  std::string line;
+  //Open file and construct an object.
+  std::ifstream stream(LinuxParser::kProcDirectory + to_string(pid) + LinuxParser::kStatFilename);
+  //Read line from file
+  std::getline(stream, line);
+  //This is to break the line's elements into each string
+  std::istringstream linestream(line);
+  //Construct a stream iterator!!! Wowww!!!!!
+  std::istream_iterator<string> beg(linestream), end;
+  //Using iterator to construct a vector!!!
+  std::vector<string> statInfo(beg, end);
+  
+  utime_ = stof(statInfo[13]);
+  stime_ = stof(statInfo[14]);
+  cutime_ = stof(statInfo[15]);
+  cstime_ = stof(statInfo[16]);
+  starttime_ = stof(statInfo[21]);
+  
+  //find a key's value
+  string key, value;
+  if(filestream.is_open()){
+    while(std::getline(filestream, line)){
+      std::istringstream linestream(line);
+      while(linestream>>key>>value){
+        if(key == "xxxx"){
+        return "tttt";
+        }
+      }
+    }
+  }
+  
+  
+}
