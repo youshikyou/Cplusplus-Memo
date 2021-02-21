@@ -1,5 +1,4 @@
 /*
-
 No copying policy
 The simplest policy of all is to forbid copying and assigning class instances all together. 
 This can be achieved by declaring, but not defining a private copy constructor and assignment operator (see NoCopyClass1 below) or alternatively 
@@ -95,6 +94,7 @@ int main()
 
 
 /*
+Deep copy policy
 With this policy, copying and assigning class instances to each other is possible without the danger of resource conflicts. 
 The idea is to allocate proprietary memory in the destination object and 
 then to copy the content to which the source object handle is pointing into the newly allocated block of memory.
@@ -141,6 +141,70 @@ int main()
     DeepCopy source(42);
     DeepCopy dest1(source);
     DeepCopy dest2 = dest1;
+
+    return 0;
+}
+
+/*
+Shared ownership policy
+The last ownership policy we will be discussing in this course implements a shared ownership behavior.
+The idea is to perform a copy or assignment similar to the default behavior, 
+i.e. copying the handle instead of the content (as with a shallow copy) while at the same time keeping track of the number of instances that also point to 
+the same resource. Each time an instance goes out of scope, the counter is decremented.
+Once the last object is about to be deleted, it can safely deallocate the memory resource. 
+We will see later in this course that this is the central idea of unique_ptr, which is a representative of the group of smart pointers.
+*/
+#include <iostream>
+
+class SharedCopy
+{
+private:
+    int *_myInt;
+    static int _cnt;
+
+public:
+    SharedCopy(int val);
+    ~SharedCopy();
+    SharedCopy(SharedCopy &source);
+};
+
+int SharedCopy::_cnt = 0;
+
+SharedCopy::SharedCopy(int val)
+{
+    _myInt = (int *)malloc(sizeof(int));
+    *_myInt = val;
+    ++_cnt;
+    std::cout << "resource allocated at address " << _myInt << std::endl;
+}
+
+SharedCopy::~SharedCopy()
+{
+    --_cnt;
+    if (_cnt == 0)
+    {
+        free(_myInt);
+        std::cout << "resource freed at address " << _myInt << std::endl;
+    }
+    else
+    {
+        std::cout << "instance at address " << this << " goes out of scope with _cnt = " << _cnt << std::endl;
+    }
+}
+
+SharedCopy::SharedCopy(SharedCopy &source)
+{
+    _myInt = source._myInt;
+    ++_cnt;
+    std::cout << _cnt << " instances with handles to address " << _myInt << " with _myInt = " << *_myInt << std::endl;
+}
+
+int main()
+{
+    SharedCopy source(42);
+    SharedCopy destination1(source);
+    SharedCopy destination2(source);
+    SharedCopy destination3(source);
 
     return 0;
 }
