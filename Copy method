@@ -1,4 +1,12 @@
-================two methods of preventing copy===================================
+/*
+
+No copying policy
+The simplest policy of all is to forbid copying and assigning class instances all together. 
+This can be achieved by declaring, but not defining a private copy constructor and assignment operator (see NoCopyClass1 below) or alternatively 
+by making both public and assigning the delete operator (see NoCopyClass2 below).
+The second choice is more explicit and makes it clearer to the programmer that copying has been actively forbidden. 
+Let us have a look at a code example on the right that illustrates both cases.
+*/
 class NoCopyClass1
 {
 private:
@@ -26,6 +34,58 @@ int main()
     NoCopyClass2 original2;
     NoCopyClass2 copy2a(original2); // copy c’tor
     NoCopyClass2 copy2b = original2; // assigment operator
+
+    return 0;
+}
+/*
+
+Exclusive ownership policy
+This policy states that whenever a resource management object is copied, 
+the resource handle is transferred from the source pointer to the destination pointer. 
+In the process, the source pointer is set to nullptr to make ownership exclusive. 
+At any time, the resource handle belongs only to a single object, which is responsible for its deletion when it is no longer needed.
+The code example on the right illustrates the basic idea of exclusive ownership.
+*/
+
+#include <iostream>
+
+class ExclusiveCopy
+{
+private:
+    int *_myInt;
+
+public:
+    ExclusiveCopy()
+    {
+        _myInt = (int *)malloc(sizeof(int));
+        std::cout << "resource allocated" << std::endl;
+    }
+    ~ExclusiveCopy()
+    {
+        if (_myInt != nullptr)
+        {
+            free(_myInt);
+            std::cout << "resource freed" << std::endl;
+        }
+            
+    }
+    ExclusiveCopy(ExclusiveCopy &source)
+    {
+        _myInt = source._myInt;
+        source._myInt = nullptr;
+    }
+    ExclusiveCopy &operator=(ExclusiveCopy &source)
+    {
+        _myInt = source._myInt;
+        source._myInt = nullptr;
+        return *this;
+    }
+};
+
+int main()
+{
+    ExclusiveCopy source;
+    ExclusiveCopy destination(source);
 
     return 0;
 }
