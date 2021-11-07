@@ -1,2 +1,1 @@
-# Udacity_cplusplus
-This is note for Udacity c++ course
+This is note for C++
